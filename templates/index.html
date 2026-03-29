@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Venevaraus</title>
+</head>
+
+<body>
+  <h1>Venevaraus</h1>
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+    {% endif %}
+
+  <p>
+  <a href="/login">Kirjaudu sisään</a>
+  <a href="/register">Luo käyttäjätunnut</a>
+  <a href="/logout">Kirjaudu ulos</a>
+  </p>
+</body>
+
+</html>
