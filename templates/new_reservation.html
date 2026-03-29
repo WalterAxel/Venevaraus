@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Uusi varaus</title>
+</head>
+
+<body>
+  <h1>Uusi varaus</h1>
+  <form action="/create_reservation" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" />
+    </p>
+    <p>
+      Kuvaus: <br />
+	  <textarea rows="8" cols="60"></textarea>
+    </p>
+	<p>
+	  Aloitus päivä: <br />
+	  <input type="date" id="start" name="reservation_start" />
+	</p>
+    <p>
+	  Lopetus päivä: <br />
+	  <input type="date" id="end" name="reservation_end" />
+	</p>
+
+    <input type="submit" value="Tee varaus" />
+  </form>
+</body>
+
+</html>

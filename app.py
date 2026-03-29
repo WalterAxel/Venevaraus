@@ -13,6 +13,17 @@ app.secret_key = config.secret_key
 def index():
     return render_template("index.html")
 
+@app.route("/new_reservation")
+def new_reservation():
+    return render_template("new_reservation.html")
+
+@app.route("/create_res", methods=["POST"])
+def create_res():
+    title = request.form["title"]
+    description = request.form["description"]
+    start_date = request.form["reservation_start"]
+    end_date = request.form["reservation_end"]
+
 @app.route("/register")
 def register():
     return render_template("register.html")
