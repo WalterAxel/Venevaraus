@@ -8,7 +8,7 @@ CREATE TABLE reservations (
     id INTEGER PRIMARY KEY,
     title TEXT
     description TEXT
-    start_date DATE
-    end_date DATE
+    start_date DATETIME
+    end_date DATETIME
     user_id INTEGER REFERENCES users
 );

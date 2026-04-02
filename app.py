@@ -4,6 +4,7 @@ from flask import redirect, render_template, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 import db
 import config
+import datetime
 
 
 app = Flask(__name__)
@@ -23,8 +24,22 @@ def create_res():
     description = request.form["description"]
     start_date = request.form["reservation_start"]
     end_date = request.form["reservation_end"]
+    user_id = session["user_id"]
+    if start_date > end_date:
+        return "VIRHE: Aloituspäivän pitää olla ennen lopetuspäivää"
+    elif title == "":
+        return "VIRHE: Varauksen otsikko puuttuu"
+    
+    try:
+        sql = "INSERT INTO reservations (title, description, start_date, end_date, user_id) VALUES (?, ?, ?, ?, ?)"
+        user_id = db.execute("SELECT id FROM users WHERE name = ?", [session["username"]])[0][0]
+        db.execute(sql, [title, description, start_date, end_date])
+    except sqlite3.IntegrityError:
+        return "VIRHE: Varaus epäonnistui"
 
-@app.route("/register")
+    return "Varaus tehty"
+
+@app.route("/register") 
 def register():
     return render_template("register.html")
 
