@@ -18,13 +18,13 @@ def index():
 def new_reservation():
     return render_template("new_reservation.html")
 
-@app.route("/create_res", methods=["POST"])
-def create_res():
+@app.route("/create_reservation", methods=["POST"])
+def create_reservation():
     title = request.form["title"]
     description = request.form["description"]
     start_date = request.form["reservation_start"]
     end_date = request.form["reservation_end"]
-    user_id = session["user_id"]
+    user_id = db.execute("SELECT id FROM users WHERE username = ?", [session["username"]])
     if start_date > end_date:
         return "VIRHE: Aloituspäivän pitää olla ennen lopetuspäivää"
     elif title == "":
@@ -32,8 +32,7 @@ def create_res():
     
     try:
         sql = "INSERT INTO reservations (title, description, start_date, end_date, user_id) VALUES (?, ?, ?, ?, ?)"
-        user_id = db.execute("SELECT id FROM users WHERE name = ?", [session["username"]])[0][0]
-        db.execute(sql, [title, description, start_date, end_date])
+        db.execute(sql, [title, description, start_date, end_date, user_id])
     except sqlite3.IntegrityError:
         return "VIRHE: Varaus epäonnistui"
 
