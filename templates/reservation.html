@@ -2,17 +2,52 @@
 <html>
 
 <head>
-  <title>Varaus</title>
+  <title>{{ reservation.title }}</title>
 </head>
 
 <body>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  <p>
-    
-  </p>
-  </body>
+  <p><a href="/">← Etusivu</a></p>
+
+  <h1>{{ reservation.title }}</h1>
+
+  <p><strong>Varaaja:</strong> {{ reservation.username }}</p>
+  <p><strong>Aloitus:</strong> {{ reservation.start_date }}</p>
+  <p><strong>Lopetus:</strong> {{ reservation.end_date }}</p>
+
+  <p><strong>Kuvaus</strong></p>
+  <p style="white-space: pre-wrap;">{{ reservation.description }}</p>
+
+  {% if is_owner %}
+  <hr />
+  <h2>Muokkaa varausta</h2>
+  <form action="/reservation/{{ reservation.id }}/edit" method="post">
+    <p>
+      Otsikko: <br />
+      <input type="text" name="title" value="{{ reservation.title }}" required />
+    </p>
+    <p>
+      Kuvaus: <br />
+      <textarea name="description" rows="8" cols="60">{{ reservation.description }}</textarea>
+    </p>
+    <p>
+      Aloitus: <br />
+      <input type="datetime-local" name="reservation_start" value="{{ start_local }}" required />
+    </p>
+    <p>
+      Lopetus: <br />
+      <input type="datetime-local" name="reservation_end" value="{{ end_local }}" required />
+    </p>
+    <p>
+      <input type="submit" value="Tallenna muutokset" />
+    </p>
+  </form>
+
+  <form action="/reservation/{{ reservation.id }}/delete" method="post" onsubmit="return confirm('Poistetaanko tämä varaus?');">
+    <p>
+      <button type="submit">Poista varaus</button>
+    </p>
+  </form>
+  {% endif %}
+</body>
 
 </html>

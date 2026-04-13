@@ -7,6 +7,9 @@
 
 <body>
   <h1>Venevaraus</h1>
+
+  {% include 'calendar.html' %}
+
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}

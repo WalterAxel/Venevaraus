@@ -7,6 +7,10 @@
 
 <body>
   <h1>Uusi varaus</h1>
+
+  {% set calendar_pick_dates = true %}
+  {% include 'calendar.html' %}
+
   <form action="/create_reservation" method="post">
     <p>
       Otsikko: <br />

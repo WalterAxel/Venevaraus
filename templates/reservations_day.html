@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Varaukset — {{ date_label }}</title>
+</head>
+
+<body>
+  <p><a href="/">← Etusivu</a></p>
+
+  <h1>Varaukset päivälle {{ date_label }}</h1>
+
+  {% if not reservations %}
+  <p>Ei varauksia tälle päivälle.</p>
+  {% else %}
+  <ul>
+    {% for r in reservations %}
+    <li>
+      <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
+      — {{ r.username }}
+      ({{ r.start }} … {{ r.end }})
+    </li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</body>
+
+</html>
