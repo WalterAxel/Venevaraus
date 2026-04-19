@@ -6,6 +6,8 @@
 </head>
 
 <body>
+  <p><a href="/">← Etusivu</a></p>
+
   {% if session.username %}
   <p>
     Olet kirjautunut nimellä {{ session.username }}
@@ -15,6 +17,7 @@
   </p>
   {% else %}
   <form action="/login" method="post">
+    {% include '_csrf_field.html' %}
     <p>
       Tunnus: <br />
       <input type="text" name="username" />

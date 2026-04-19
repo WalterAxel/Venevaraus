@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Ilmoitukset — Venevaraus</title>
+  <style>
+    .ilmoitukset-page {
+      font-family: system-ui, sans-serif;
+      max-width: 52rem;
+      margin: 0 auto;
+      padding: 0 1rem 2rem;
+    }
+
+    .ilmoitukset-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+      align-items: start;
+    }
+
+    @media (max-width: 40rem) {
+      .ilmoitukset-columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .ilmoitukset-col h2 {
+      margin-top: 0;
+      font-size: 1.1rem;
+    }
+
+    .ilmoitukset-col--varaus h2 {
+      color: #2d7a4d;
+    }
+
+    .ilmoitukset-col--vika h2 {
+      color: #a02828;
+    }
+
+    .ilmoitukset-col ul {
+      margin: 0;
+      padding-left: 1.2rem;
+    }
+
+    .ilmoitukset-col li {
+      margin-bottom: 0.5rem;
+    }
+
+    .ilmoitukset-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: #444;
+      margin-bottom: 0.75rem;
+    }
+
+    .ilmoitukset-legend span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .ilmoitukset-legend i {
+      display: inline-block;
+      width: 0.75rem;
+      height: 0.75rem;
+      border-radius: 2px;
+    }
+
+    .ilmoitukset-legend .swatch--varaus {
+      background: rgba(45, 122, 77, 0.35);
+      border: 1px solid #2d7a4d;
+    }
+
+    .ilmoitukset-legend .swatch--vika {
+      background: rgba(184, 50, 50, 0.35);
+      border: 1px solid #a02828;
+    }
+  </style>
+</head>
+
+<body class="ilmoitukset-page">
+  <p><a href="/">← Etusivu</a></p>
+
+  <h1>Ilmoitukset</h1>
+
+  <div class="ilmoitukset-columns">
+    <section class="ilmoitukset-col ilmoitukset-col--varaus" aria-labelledby="hdr-varaus">
+      <h2 id="hdr-varaus">Varaukset</h2>
+      {% if not varaukset %}
+      <p>Ei varauksia.</p>
+      {% else %}
+      <ul>
+        {% for r in varaukset %}
+        <li>
+          <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
+          — {{ r.username }}<br />
+          <small>{{ r.start }} … {{ r.end }}</small>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+
+    <section class="ilmoitukset-col ilmoitukset-col--vika" aria-labelledby="hdr-vika">
+      <h2 id="hdr-vika">Vikailmoitukset</h2>
+      {% if not vikailmoitukset %}
+      <p>Ei vikailmoituksia.</p>
+      {% else %}
+      <ul>
+        {% for r in vikailmoitukset %}
+        <li>
+          <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
+          — {{ r.username }}<br />
+          <small>{{ r.start }} … {{ r.end }}</small>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+  </div>
+
+  <div class="ilmoitukset-legend" aria-hidden="true">
+    <span><i class="swatch swatch--varaus"></i> Varaus (vihreä)</span>
+    <span><i class="swatch swatch--vika"></i> Vikailmoitus (punainen)</span>
+    <span>Päivä voi olla molempia, jos ilmoituksia on kumpaakin tyyppiä.</span>
+  </div>
+
+  {% set calendar_color_categories = true %}
+  {% include 'calendar.html' %}
+</body>
+
+</html>

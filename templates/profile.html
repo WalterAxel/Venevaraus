@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Oma profiili — Venevaraus</title>
+</head>
+
+<body>
+  <p><a href="/">← Etusivu</a></p>
+
+  <h1>Oma profiili</h1>
+
+  <section>
+    <h2>Tilin tiedot</h2>
+    <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
+    <p><strong>Käyttäjätunnuksen tunniste:</strong> {{ user.id }}</p>
+  </section>
+
+  <section>
+    <h2>Omat ilmoitukset ({{ reservations|length }})</h2>
+    {% if not reservations %}
+    <p>Sinulla ei ole vielä ilmoituksia.</p>
+    {% else %}
+    <ul>
+      {% for r in reservations %}
+      <li>
+        <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
+        — {{ category_label(r.category) }}
+        <br />
+        {{ r.start_date }} … {{ r.end_date }}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+</body>
+
+</html>

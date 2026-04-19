@@ -10,5 +10,6 @@ CREATE TABLE reservations (
     description TEXT,
     start_date DATETIME,
     end_date DATETIME,
+    category TEXT NOT NULL DEFAULT 'varaus' CHECK (category IN ('varaus', 'vikailmoitus')),
     user_id INTEGER REFERENCES users
 );

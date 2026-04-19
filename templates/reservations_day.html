@@ -17,7 +17,7 @@
     {% for r in reservations %}
     <li>
       <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
-      — {{ r.username }}
+      — {{ category_label(r.category) }} — {{ r.username }}
       ({{ r.start }} … {{ r.end }})
     </li>
     {% endfor %}

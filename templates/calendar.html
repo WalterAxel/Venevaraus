@@ -95,6 +95,22 @@
     background: rgba(45, 122, 77, 0.1);
   }
 
+  .calendar-widget__cell--varaus {
+    background: rgba(45, 122, 77, 0.15);
+  }
+
+  .calendar-widget__cell--vika {
+    background: rgba(184, 50, 50, 0.18);
+  }
+
+  .calendar-widget__cell--mixed {
+    background: linear-gradient(
+      135deg,
+      rgba(45, 122, 77, 0.15) 50%,
+      rgba(184, 50, 50, 0.18) 50%
+    );
+  }
+
   .calendar-widget__day {
     width: 100%;
     height: 100%;
@@ -124,12 +140,30 @@
     border-radius: 6px;
   }
 
-  .calendar-widget__cell--booked .calendar-widget__day--today {
+  .calendar-widget__cell--booked .calendar-widget__day--today,
+  .calendar-widget__cell--varaus .calendar-widget__day--today,
+  .calendar-widget__cell--vika .calendar-widget__day--today,
+  .calendar-widget__cell--mixed .calendar-widget__day--today {
     box-shadow: inset 0 0 0 2px var(--cal-today);
   }
 
   .calendar-widget__day--booked:not(.calendar-widget__day--today) {
     color: var(--cal-booked);
+    font-weight: 600;
+  }
+
+  .calendar-widget__day--cat-varaus:not(.calendar-widget__day--today) {
+    color: #2d7a4d;
+    font-weight: 600;
+  }
+
+  .calendar-widget__day--cat-vika:not(.calendar-widget__day--today) {
+    color: #a02828;
+    font-weight: 600;
+  }
+
+  .calendar-widget__day--cat-mixed:not(.calendar-widget__day--today) {
+    color: #333;
     font-weight: 600;
   }
 
@@ -151,6 +185,19 @@
 
     var reservations = {{ reservations | default([]) | tojson }};
     var pickDates = {{ calendar_pick_dates | default(false) | tojson }};
+    var colorByCategory = {{ calendar_color_categories | default(false) | tojson }};
+
+    function dayHasVaraus(dayRes) {
+      return dayRes.some(function (r) {
+        return (r.category || "varaus") === "varaus";
+      });
+    }
+
+    function dayHasVika(dayRes) {
+      return dayRes.some(function (r) {
+        return r.category === "vikailmoitus";
+      });
+    }
 
     var grid = document.getElementById("cal-grid");
     var titleEl = document.getElementById("cal-title");
@@ -185,7 +232,8 @@
     }
 
     function bookingTitle(r) {
-      return r.title + " (" + r.username + ")";
+      var kind = r.category_display || "Varaus";
+      return r.title + " (" + kind + ", " + r.username + ")";
     }
 
     function render() {
@@ -212,10 +260,6 @@
         cell.setAttribute("role", "gridcell");
 
         var dayRes = reservationsForDay(y, m, d);
-        if (dayRes.length) {
-          cell.classList.add("calendar-widget__cell--booked");
-        }
-
         var btn = document.createElement("button");
         btn.type = "button";
         btn.className = "calendar-widget__day";
@@ -223,7 +267,23 @@
         btn.setAttribute("tabindex", "-1");
 
         if (dayRes.length) {
-          btn.classList.add("calendar-widget__day--booked");
+          if (colorByCategory) {
+            var hv = dayHasVaraus(dayRes);
+            var hk = dayHasVika(dayRes);
+            if (hv && hk) {
+              cell.classList.add("calendar-widget__cell--mixed");
+              btn.classList.add("calendar-widget__day--cat-mixed");
+            } else if (hk) {
+              cell.classList.add("calendar-widget__cell--vika");
+              btn.classList.add("calendar-widget__day--cat-vika");
+            } else {
+              cell.classList.add("calendar-widget__cell--varaus");
+              btn.classList.add("calendar-widget__day--cat-varaus");
+            }
+          } else {
+            cell.classList.add("calendar-widget__cell--booked");
+            btn.classList.add("calendar-widget__day--booked");
+          }
           btn.classList.add("calendar-widget__day--inspect");
           btn.title = dayRes.map(bookingTitle).join("\n");
         }

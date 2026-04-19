@@ -10,6 +10,7 @@
 
   <h1>{{ reservation.title }}</h1>
 
+  <p><strong>Tyyppi:</strong> {{ category_label(reservation.category) }}</p>
   <p><strong>Varaaja:</strong> {{ reservation.username }}</p>
   <p><strong>Aloitus:</strong> {{ reservation.start_date }}</p>
   <p><strong>Lopetus:</strong> {{ reservation.end_date }}</p>
@@ -21,6 +22,12 @@
   <hr />
   <h2>Muokkaa varausta</h2>
   <form action="/reservation/{{ reservation.id }}/edit" method="post">
+    {% include '_csrf_field.html' %}
+    <p>
+      Tyyppi: <br />
+      <label><input type="radio" name="category" value="varaus" {% if reservation.category == 'varaus' %}checked{% endif %} /> Varaus</label>
+      <label><input type="radio" name="category" value="vikailmoitus" {% if reservation.category == 'vikailmoitus' %}checked{% endif %} /> Vikailmoitus</label>
+    </p>
     <p>
       Otsikko: <br />
       <input type="text" name="title" value="{{ reservation.title }}" required />
@@ -43,6 +50,7 @@
   </form>
 
   <form action="/reservation/{{ reservation.id }}/delete" method="post" onsubmit="return confirm('Poistetaanko tämä varaus?');">
+    {% include '_csrf_field.html' %}
     <p>
       <button type="submit">Poista varaus</button>
     </p>

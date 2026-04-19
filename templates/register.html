@@ -6,7 +6,10 @@
 </head>
 
 <body>
+  <p><a href="/">← Etusivu</a></p>
+
   <form action="/create" method="post">
+    {% include '_csrf_field.html' %}
     <p>
       Tunnus: <br />
       <input type="text" name="username" />

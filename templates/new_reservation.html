@@ -2,16 +2,24 @@
 <html>
 
 <head>
-  <title>Uusi varaus</title>
+  <title>Uusi ilmoitus</title>
 </head>
 
 <body>
-  <h1>Uusi varaus</h1>
+  <p><a href="/">← Etusivu</a></p>
+
+  <h1>Uusi ilmoitus</h1>
 
   {% set calendar_pick_dates = true %}
   {% include 'calendar.html' %}
 
   <form action="/create_reservation" method="post">
+    {% include '_csrf_field.html' %}
+    <p>
+      Tyyppi: <br />
+      <label><input type="radio" name="category" value="varaus" checked /> Varaus</label>
+      <label><input type="radio" name="category" value="vikailmoitus" /> Vikailmoitus</label>
+    </p>
     <p>
       Otsikko: <br />
       <input type="text" name="title" />
@@ -29,7 +37,7 @@
 	  <input type="datetime-local" id="end" name="reservation_end" />
 	</p>
 
-    <input type="submit" value="Tee varaus" />
+    <input type="submit" value="Tallenna ilmoitus" />
   </form>
 </body>
 
