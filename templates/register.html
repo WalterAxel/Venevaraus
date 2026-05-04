@@ -1,30 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Register</title>
+  {% include '_site_head.html' %}
+  <title>Rekisteröityminen</title>
 </head>
 
-<body>
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  <form class="ajax-form" action="/create" method="post">
-    {% include '_csrf_field.html' %}
-    <p>
-      Username: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Password: <br />
-      <input type="password" name="password1" />
-    </p>
-    <p>
-      Password again: <br />
-      <input type="password" name="password2" />
-    </p>
-    <input type="submit" value="Create account" />
-  </form>
-  <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Luo tunnus</h1>
+      </header>
+
+      <form class="ajax-form site-form" action="/create" method="post">
+        {% include '_csrf_field.html' %}
+        <div class="site-field">
+          <label for="reg-username">Käyttäjätunnus</label>
+          <input id="reg-username" type="text" name="username" autocomplete="username" />
+        </div>
+        <div class="site-field">
+          <label for="reg-pw1">Salasana</label>
+          <input id="reg-pw1" type="password" name="password1" autocomplete="new-password" required />
+        </div>
+        <div class="site-field">
+          <label for="reg-pw2">Salasana uudestaan</label>
+          <input id="reg-pw2" type="password" name="password2" autocomplete="new-password" required />
+        </div>
+        <div class="site-form-actions">
+          <input class="btn btn-primary" type="submit" value="Luo tunnus" />
+        </div>
+      </form>
+      <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+    </div>
+  </div>
 </body>
 
 </html>

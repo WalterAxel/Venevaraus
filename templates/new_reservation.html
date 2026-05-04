@@ -1,45 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>New entry</title>
+  {% include '_site_head.html' %}
+  <title>Uusi ilmoitus</title>
 </head>
 
-<body>
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  <h1>New entry</h1>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Uusi ilmoitus</h1>
+      </header>
 
-  {% set calendar_pick_dates = true %}
-  {% include 'calendar.html' %}
+      {% set calendar_pick_dates = true %}
+      <div class="site-calendar-wrap">
+        {% include 'calendar.html' %}
+      </div>
 
-  <form class="ajax-form" action="/create_reservation" method="post">
-    {% include '_csrf_field.html' %}
-    <p>
-      Type: <br />
-      <label><input type="radio" name="category" value="booking" checked /> Booking</label>
-      <label><input type="radio" name="category" value="fault_report" /> Fault report</label>
-    </p>
-    <p>
-      Title: <br />
-      <input type="text" name="title" />
-    </p>
-    <p>
-      Description: <br />
-	  <textarea name="description" rows="8" cols="60"></textarea>
-    </p>
-	<p>
-	  Start: <br />
-	  <input type="datetime-local" id="start" name="reservation_start" />
-	</p>
-    <p>
-	  End: <br />
-	  <input type="datetime-local" id="end" name="reservation_end" />
-	</p>
-
-    <input type="submit" value="Save entry" />
-  </form>
-  <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+      <form class="ajax-form site-form" action="/create_reservation" method="post">
+        {% include '_csrf_field.html' %}
+        <div class="site-field site-field--radio">
+          <span class="site-field-label">Tyyppi</span>
+          <label><input type="radio" name="category" value="booking" checked /> Varaus</label>
+          <label><input type="radio" name="category" value="fault_report" /> Vikailmoitus</label>
+        </div>
+        <div class="site-field">
+          <label for="new-title">Otsikko</label>
+          <input id="new-title" type="text" name="title" />
+        </div>
+        <div class="site-field">
+          <label for="new-desc">Kuvaus</label>
+          <textarea id="new-desc" name="description" rows="8" cols="60"></textarea>
+        </div>
+        <div class="site-field">
+          <label for="start">Aloitus</label>
+          <input type="datetime-local" id="start" name="reservation_start" />
+        </div>
+        <div class="site-field">
+          <label for="end">Lopetus</label>
+          <input type="datetime-local" id="end" name="reservation_end" />
+        </div>
+        <div class="site-form-actions">
+          <input class="btn btn-primary" type="submit" value="Tallenna ilmoitus" />
+        </div>
+      </form>
+      <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+    </div>
+  </div>
 </body>
 
 </html>

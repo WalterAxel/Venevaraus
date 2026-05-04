@@ -1,38 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>My profile — Boat reservations</title>
+  {% include '_site_head.html' %}
+  <title>Oma profiili — Venevaraus</title>
 </head>
 
-<body>
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  <h1>My profile</h1>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Oma profiili</h1>
+      </header>
 
-  <section>
-    <h2>Account details</h2>
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>User ID:</strong> {{ user.id }}</p>
-  </section>
+      <section class="site-section">
+        <h2>Tilin tiedot</h2>
+        <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
+        <p><strong>Tunniste:</strong> {{ user.id }}</p>
+        <div class="site-form-actions site-actions--start site-section-follow">
+          <a class="btn btn-secondary" href="{{ url_for('change_password') }}">Vaihda salasana</a>
+        </div>
+      </section>
 
-  <section>
-    <h2>My entries ({{ reservations|length }})</h2>
-    {% if not reservations %}
-    <p>You have no entries yet.</p>
-    {% else %}
-    <ul>
-      {% for r in reservations %}
-      <li>
-        <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
-        — {{ category_label(r.category) }}
-        <br />
-        {{ r.start_date }} … {{ r.end_date }}
-      </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </section>
+      <section class="site-section">
+        <h2>Omat ilmoitukset ({{ reservations|length }})</h2>
+        {% if not reservations %}
+        <p class="site-muted">Sinulla ei ole vielä ilmoituksia.</p>
+        {% else %}
+        <ul class="site-list">
+          {% for r in reservations %}
+          <li>
+            <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
+            — {{ category_label(r.category) }}
+            <br />
+            <span class="site-muted">{{ r.start_date }} … {{ r.end_date }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </section>
+    </div>
+  </div>
 </body>
 
 </html>

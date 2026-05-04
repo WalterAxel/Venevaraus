@@ -1,13 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Error</title>
+  {% include '_site_head.html' %}
+  <title>Virhe</title>
 </head>
 
-<body>
-  <p>{{ message }}</p>
-  <p><a href="{{ url_for('index') }}">Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <header class="site-page-header site-page-header--tight">
+        <h1>Virhe</h1>
+      </header>
+      <div class="site-error-message">{{ message }}</div>
+      <div class="site-form-actions site-actions--start">
+        <a class="btn btn-primary" href="{{ url_for('index') }}">Etusivu</a>
+      </div>
+    </div>
+  </div>
 </body>
 
 </html>

@@ -1,35 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Log in</title>
+  {% include '_site_head.html' %}
+  <title>Kirjautuminen</title>
 </head>
 
-<body>
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  {% if session.username %}
-  <p>
-    Signed in as {{ session.username }}
-  </p>
-  <p>
-    <a href="/logout">Log out</a>
-  </p>
-  {% else %}
-  <form class="ajax-form" action="/login" method="post">
-    {% include '_csrf_field.html' %}
-    <p>
-      Username: <br />
-      <input type="text" name="username" />
-    </p>
-    <p>
-      Password: <br />
-      <input type="password" name="password" />
-    </p>
-    <input type="submit" value="Log in" />
-  </form>
-  {% endif %}
-  <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Kirjautuminen</h1>
+      </header>
+
+      {% if session.username %}
+      <p class="site-muted">Olet kirjautunut nimellä <strong>{{ session.username }}</strong></p>
+      <div class="site-form-actions">
+        <a class="btn btn-secondary" href="/logout">Kirjaudu ulos</a>
+      </div>
+      {% else %}
+      <form class="ajax-form site-form" action="/login" method="post">
+        {% include '_csrf_field.html' %}
+        <div class="site-field">
+          <label for="login-username">Käyttäjätunnus</label>
+          <input id="login-username" type="text" name="username" autocomplete="username" />
+        </div>
+        <div class="site-field">
+          <label for="login-password">Salasana</label>
+          <input id="login-password" type="password" name="password" autocomplete="current-password" required />
+        </div>
+        <div class="site-form-actions">
+          <input class="btn btn-primary" type="submit" value="Kirjaudu" />
+        </div>
+      </form>
+      {% endif %}
+      <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
+    </div>
+  </div>
 </body>
 
 </html>

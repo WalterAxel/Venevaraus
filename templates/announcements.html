@@ -1,135 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Announcements — Boat reservations</title>
-  <style>
-    .announcements-page {
-      font-family: system-ui, sans-serif;
-      max-width: 52rem;
-      margin: 0 auto;
-      padding: 0 1rem 2rem;
-    }
-
-    .announcements-columns {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
-      margin-bottom: 1.5rem;
-      align-items: start;
-    }
-
-    @media (max-width: 40rem) {
-      .announcements-columns {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .announcements-col h2 {
-      margin-top: 0;
-      font-size: 1.1rem;
-    }
-
-    .announcements-col--booking h2 {
-      color: #2d7a4d;
-    }
-
-    .announcements-col--fault h2 {
-      color: #a02828;
-    }
-
-    .announcements-col ul {
-      margin: 0;
-      padding-left: 1.2rem;
-    }
-
-    .announcements-col li {
-      margin-bottom: 0.5rem;
-    }
-
-    .announcements-legend {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      font-size: 0.85rem;
-      color: #444;
-      margin-bottom: 0.75rem;
-    }
-
-    .announcements-legend span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .announcements-legend i {
-      display: inline-block;
-      width: 0.75rem;
-      height: 0.75rem;
-      border-radius: 2px;
-    }
-
-    .announcements-legend .swatch--booking {
-      background: rgba(45, 122, 77, 0.35);
-      border: 1px solid #2d7a4d;
-    }
-
-    .announcements-legend .swatch--fault {
-      background: rgba(184, 50, 50, 0.35);
-      border: 1px solid #a02828;
-    }
-  </style>
+  {% include '_site_head.html' %}
+  <title>Ilmoitukset — Venevaraus</title>
 </head>
 
-<body class="announcements-page">
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--wide">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  <h1>Announcements</h1>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Ilmoitukset</h1>
+      </header>
 
-  <div class="announcements-columns">
-    <section class="announcements-col announcements-col--booking" aria-labelledby="hdr-booking">
-      <h2 id="hdr-booking">Bookings</h2>
-      {% if not bookings %}
-      <p>No bookings.</p>
-      {% else %}
-      <ul>
-        {% for r in bookings %}
-        <li>
-          <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
-          — {{ r.username }}<br />
-          <small>{{ r.start }} … {{ r.end }}</small>
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </section>
+      <div class="announcements-columns">
+        <section class="announcements-col announcements-col--booking" aria-labelledby="hdr-booking">
+          <h2 id="hdr-booking">Varaukset</h2>
+          {% if not bookings %}
+          <p class="site-muted">Ei varauksia.</p>
+          {% else %}
+          <ul>
+            {% for r in bookings %}
+            <li>
+              <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
+              — {{ r.username }}<br />
+              <small class="site-muted">{{ r.start }} … {{ r.end }}</small>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </section>
 
-    <section class="announcements-col announcements-col--fault" aria-labelledby="hdr-fault">
-      <h2 id="hdr-fault">Fault reports</h2>
-      {% if not fault_reports %}
-      <p>No fault reports.</p>
-      {% else %}
-      <ul>
-        {% for r in fault_reports %}
-        <li>
-          <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
-          — {{ r.username }}<br />
-          <small>{{ r.start }} … {{ r.end }}</small>
-        </li>
-        {% endfor %}
-      </ul>
-      {% endif %}
-    </section>
+        <section class="announcements-col announcements-col--fault" aria-labelledby="hdr-fault">
+          <h2 id="hdr-fault">Vikailmoitukset</h2>
+          {% if not fault_reports %}
+          <p class="site-muted">Ei vikailmoituksia.</p>
+          {% else %}
+          <ul>
+            {% for r in fault_reports %}
+            <li>
+              <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
+              — {{ r.username }}<br />
+              <small class="site-muted">{{ r.start }} … {{ r.end }}</small>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </section>
+      </div>
+
+      <div class="announcements-legend" aria-hidden="true">
+        <span><i class="swatch swatch--booking"></i> Varaus (vihreä)</span>
+        <span><i class="swatch swatch--fault"></i> Vikailmoitus (punainen)</span>
+        <span>Päivä voi näyttää molemmat värit, jos kyseisenä päivänä on molemmantyyppisiä merkintöjä.</span>
+      </div>
+
+      <div class="site-calendar-wrap">
+        {% set calendar_color_categories = true %}
+        {% include 'calendar.html' %}
+      </div>
+    </div>
   </div>
-
-  <div class="announcements-legend" aria-hidden="true">
-    <span><i class="swatch swatch--booking"></i> Booking (green)</span>
-    <span><i class="swatch swatch--fault"></i> Fault report (red)</span>
-    <span>A day may show both colors if it has entries of each type.</span>
-  </div>
-
-  {% set calendar_color_categories = true %}
-  {% include 'calendar.html' %}
 </body>
 
 </html>

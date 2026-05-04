@@ -1,39 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Boat reservations</title>
+  {% include '_site_head.html' %}
+  <title>Venevaraus</title>
 </head>
 
-<body>
-  <h1>Boat reservations</h1>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card site-card--home">
+      <header class="site-page-header">
+        <h1>Venevaraus</h1>
+      </header>
 
-  <p><a href="{{ url_for('announcements') }}">All announcements</a></p>
+      <nav class="home-nav" aria-label="Päänäkymä">
+        <a class="btn btn-primary" href="{{ url_for('announcements') }}">Kaikki ilmoitukset</a>
+      </nav>
 
-  {% include 'calendar.html' %}
+      <div class="site-calendar-wrap">
+        {% include 'calendar.html' %}
+      </div>
 
-  {% if session.username %}
-  <p>
-    Signed in as {{ session.username }}
-  </p>
-    {% endif %}
+      {% if session.username %}
+      <p class="site-session">
+        Kirjautunut: <strong>{{ session.username }}</strong>
+      </p>
+      {% endif %}
 
-  <p>
-  {% if not session.username %}
-  <a href="/login">Log in</a>
-  <a href="/register">Create an account</a>
-    {% endif %}
-  {% if session.username %}
-  <a href="{{ url_for('profile') }}">My profile</a>
-  <a href="/logout">Log out</a>
-    {% endif %}
-  </p>
+      <div class="site-actions" role="group" aria-label="Tilit">
+        {% if not session.username %}
+        <a class="btn btn-primary" href="/login">Kirjaudu sisään</a>
+        <a class="btn btn-secondary" href="/register">Luo käyttäjätunnus</a>
+        {% else %}
+        <a class="btn btn-secondary" href="{{ url_for('profile') }}">Oma profiili</a>
+        <a class="btn btn-ghost" href="/logout">Kirjaudu ulos</a>
+        {% endif %}
+      </div>
 
-  {% if session.username %}
-  <p>
-    <a href="/new_reservation">New entry</a>
-  </p>
-    {% endif %}
+      {% if session.username %}
+      <div class="site-actions site-actions--spaced" role="group" aria-label="Ilmoitus">
+        <a class="btn btn-accent" href="/new_reservation">+ Uusi ilmoitus</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
 </body>
 
 </html>

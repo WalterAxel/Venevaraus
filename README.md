@@ -8,4 +8,4 @@ Shared boat booking and announcements app.
 - Other bookings appear on the shared calendar.
 - The profile page lists the user’s entries, including bookings and fault reports.
 - Each entry has one of two types: booking or fault report.
-- Users can optionally make a booking public so other members can join for sailing.
+- Users can change their password from their profile.

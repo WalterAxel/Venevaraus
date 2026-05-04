@@ -19,18 +19,12 @@
   function parseResponse(response) {
     var ct = response.headers.get("content-type") || "";
     if (ct.indexOf("application/json") !== -1) {
-      return response.json().then(function (data) {
-        return { ok: response.ok, status: response.status, data: data };
+      return response.json().catch(function () {
+        return { error: "Odottamaton vastaus palvelimelta." };
       });
     }
     return response.text().then(function () {
-      return {
-        ok: response.ok,
-        status: response.status,
-        data: {
-          error: "Unexpected response from the server.",
-        },
-      };
+      return { error: "Odottamaton vastaus palvelimelta." };
     });
   }
 
@@ -43,7 +37,7 @@
       ev.preventDefault();
       var confirmMsg = form.getAttribute("data-confirm");
       if (confirmMsg !== null) {
-        if (!window.confirm(confirmMsg || "Are you sure?")) {
+        if (!window.confirm(confirmMsg || "Oletko varma?")) {
           return;
         }
       }
@@ -53,19 +47,19 @@
         headers: { "X-Requested-With": "XMLHttpRequest" },
       })
         .then(parseResponse)
-        .then(function (res) {
-          if (res.data.redirect) {
-            window.location.href = res.data.redirect;
+        .then(function (data) {
+          if (data.redirect) {
+            window.location.href = data.redirect;
             return;
           }
-          if (res.data.error) {
-            showErrorPopup(res.data.error);
+          if (data.error) {
+            showErrorPopup(data.error);
             return;
           }
-          showErrorPopup("Something went wrong.");
+          showErrorPopup("Jotain meni pieleen.");
         })
         .catch(function () {
-          showErrorPopup("Network error. Please try again.");
+          showErrorPopup("Verkkovirhe. Yritä uudelleen.");
         });
     });
   });

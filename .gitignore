@@ -2,3 +2,6 @@ __pycache__
 venv
 database.db
 workenv/
+
+CONTEXT.md
+HISTORY.md

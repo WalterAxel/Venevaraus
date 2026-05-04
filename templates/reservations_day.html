@@ -1,28 +1,36 @@
 <!DOCTYPE html>
-<html>
+<html lang="fi">
 
 <head>
-  <title>Reservations — {{ date_label }}</title>
+  {% include '_site_head.html' %}
+  <title>Varaukset — {{ date_label }}</title>
 </head>
 
-<body>
-  <p><a href="/">← Home</a></p>
+<body class="site-body">
+  <div class="site-shell site-shell--narrow">
+    <div class="site-card">
+      <a class="site-back" href="/">← Etusivu</a>
 
-  <h1>Reservations for {{ date_label }}</h1>
+      <header class="site-page-header site-page-header--tight">
+        <h1>Varaukset päivälle {{ date_label }}</h1>
+      </header>
 
-  {% if not reservations %}
-  <p>No reservations for this day.</p>
-  {% else %}
-  <ul>
-    {% for r in reservations %}
-    <li>
-      <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
-      — {{ category_label(r.category) }} — {{ r.username }}
-      ({{ r.start }} … {{ r.end }})
-    </li>
-    {% endfor %}
-  </ul>
-  {% endif %}
+      {% if not reservations %}
+      <p class="site-muted">Ei varauksia tälle päivälle.</p>
+      {% else %}
+      <ul class="site-list">
+        {% for r in reservations %}
+        <li>
+          <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
+          — {{ category_label(r.category) }} — {{ r.username }}
+          <br />
+          <span class="site-muted">{{ r.start }} … {{ r.end }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
 </body>
 
 </html>
