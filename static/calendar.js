@@ -156,8 +156,8 @@
               var endEl = document.getElementById("end");
               if (!startEl || !endEl) return;
               var datePartStr = isoDate(yy, mm, dd);
-              startEl.value = datePartStr + "T09:00";
-              endEl.value = datePartStr + "T17:00";
+              startEl.value = datePartStr;
+              endEl.value = datePartStr;
             }
           };
         }(y, m, d));

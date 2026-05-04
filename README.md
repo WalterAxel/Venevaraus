@@ -1,6 +1,6 @@
 # Boat reservations (Venevaraus)
 
-Shared boat booking and announcements app.
+Shared boat booking and reservation listing app.
 
 - Users sign in with their own credentials.
 - Bookings are shown on a calendar.

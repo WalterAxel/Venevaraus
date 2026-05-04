@@ -35,7 +35,7 @@
             <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
             — {{ category_label(r.category) }}
             <br />
-            <span class="site-muted">{{ r.start_date }} … {{ r.end_date }}</span>
+            <span class="site-muted">{{ r.start_date|display_date }} … {{ r.end_date|display_date }}</span>
           </li>
           {% endfor %}
         </ul>

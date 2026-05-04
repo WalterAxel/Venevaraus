@@ -352,7 +352,7 @@ button.btn {
 
 .site-field input[type="text"],
 .site-field input[type="password"],
-.site-field input[type="datetime-local"],
+.site-field input[type="date"],
 .site-field textarea {
   width: 100%;
   max-width: 100%;
@@ -390,7 +390,7 @@ button.btn {
   border-top: 1px dashed var(--border);
 }
 
-.announcements-columns {
+.reservations-columns {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
@@ -400,39 +400,39 @@ button.btn {
 }
 
 @media (max-width: 40rem) {
-  .announcements-columns {
+  .reservations-columns {
     grid-template-columns: 1fr;
   }
 }
 
-.announcements-col h2 {
+.reservations-col h2 {
   margin-top: 0;
   font-size: 1.05rem;
 }
 
-.announcements-col--booking h2 {
+.reservations-col--booking h2 {
   color: #2d7a4d;
 }
 
-.announcements-col--fault h2 {
+.reservations-col--fault h2 {
   color: #a02828;
 }
 
-.announcements-col ul {
+.reservations-col ul {
   margin: 0;
   padding-left: 1.2rem;
 }
 
-.announcements-col li {
+.reservations-col li {
   margin-bottom: 0.5rem;
 }
 
-.announcements-col a {
+.reservations-col a {
   color: var(--primary);
   font-weight: 600;
 }
 
-.announcements-legend {
+.reservations-legend {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
@@ -442,25 +442,25 @@ button.btn {
   text-align: left;
 }
 
-.announcements-legend span {
+.reservations-legend span {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
 }
 
-.announcements-legend i {
+.reservations-legend i {
   display: inline-block;
   width: 0.75rem;
   height: 0.75rem;
   border-radius: 2px;
 }
 
-.announcements-legend .swatch--booking {
+.reservations-legend .swatch--booking {
   background: rgba(45, 122, 77, 0.35);
   border: 1px solid #2d7a4d;
 }
 
-.announcements-legend .swatch--fault {
+.reservations-legend .swatch--fault {
   background: rgba(184, 50, 50, 0.35);
   border: 1px solid #a02828;
 }

@@ -15,8 +15,8 @@
         <h1>Ilmoitukset</h1>
       </header>
 
-      <div class="announcements-columns">
-        <section class="announcements-col announcements-col--booking" aria-labelledby="hdr-booking">
+      <div class="reservations-columns">
+        <section class="reservations-col reservations-col--booking" aria-labelledby="hdr-booking">
           <h2 id="hdr-booking">Varaukset</h2>
           {% if not bookings %}
           <p class="site-muted">Ei varauksia.</p>
@@ -26,14 +26,14 @@
             <li>
               <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
               — {{ r.username }}<br />
-              <small class="site-muted">{{ r.start }} … {{ r.end }}</small>
+              <small class="site-muted">{{ r.start|display_date }} … {{ r.end|display_date }}</small>
             </li>
             {% endfor %}
           </ul>
           {% endif %}
         </section>
 
-        <section class="announcements-col announcements-col--fault" aria-labelledby="hdr-fault">
+        <section class="reservations-col reservations-col--fault" aria-labelledby="hdr-fault">
           <h2 id="hdr-fault">Vikailmoitukset</h2>
           {% if not fault_reports %}
           <p class="site-muted">Ei vikailmoituksia.</p>
@@ -43,7 +43,7 @@
             <li>
               <a href="{{ url_for('view_reservation', reservation_id=r.id) }}">{{ r.title }}</a>
               — {{ r.username }}<br />
-              <small class="site-muted">{{ r.start }} … {{ r.end }}</small>
+              <small class="site-muted">{{ r.start|display_date }} … {{ r.end|display_date }}</small>
             </li>
             {% endfor %}
           </ul>
@@ -51,7 +51,7 @@
         </section>
       </div>
 
-      <div class="announcements-legend" aria-hidden="true">
+      <div class="reservations-legend" aria-hidden="true">
         <span><i class="swatch swatch--booking"></i> Varaus (vihreä)</span>
         <span><i class="swatch swatch--fault"></i> Vikailmoitus (punainen)</span>
         <span>Päivä voi näyttää molemmat värit, jos kyseisenä päivänä on molemmantyyppisiä merkintöjä.</span>

@@ -20,9 +20,9 @@
       <div class="meta-line"><strong>Varaaja</strong></div>
       <p>{{ reservation.username }}</p>
       <div class="meta-line"><strong>Aloitus</strong></div>
-      <p>{{ reservation.start_date }}</p>
+      <p>{{ reservation.start_date|display_date }}</p>
       <div class="meta-line"><strong>Lopetus</strong></div>
-      <p>{{ reservation.end_date }}</p>
+      <p>{{ reservation.end_date|display_date }}</p>
 
       <section class="site-section">
         <h2>Kuvaus</h2>
@@ -51,11 +51,11 @@
           </div>
           <div class="site-field">
             <label for="edit-start">Aloitus</label>
-            <input id="edit-start" type="datetime-local" name="reservation_start" value="{{ start_local }}" required />
+            <input id="edit-start" type="date" name="reservation_start" value="{{ start_date_input }}" required />
           </div>
           <div class="site-field">
             <label for="edit-end">Lopetus</label>
-            <input id="edit-end" type="datetime-local" name="reservation_end" value="{{ end_local }}" required />
+            <input id="edit-end" type="date" name="reservation_end" value="{{ end_date_input }}" required />
           </div>
           <div class="site-form-actions">
             <input class="btn btn-primary" type="submit" value="Tallenna muutokset" />

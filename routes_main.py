@@ -1,4 +1,4 @@
-"""Public pages: home, announcements list, profile, day view."""
+"""Public pages: home, reservations overview, profile, day view."""
 
 from __future__ import annotations
 
@@ -18,12 +18,12 @@ def register_main_routes(app: Flask) -> None:
     def index():
         return render_template("index.html", reservations=get_calendar_reservations())
 
-    @app.route("/announcements")
-    def announcements():
+    @app.route("/reservations")
+    def reservations():
         all_items = get_calendar_reservations()
         bookings, fault_reports = split_reservations_by_category(all_items)
         return render_template(
-            "announcements.html",
+            "reservations.html",
             reservations=all_items,
             bookings=bookings,
             fault_reports=fault_reports,

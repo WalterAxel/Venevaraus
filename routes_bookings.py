@@ -10,7 +10,8 @@ from http_helpers import form_error, form_login_required_redirect, form_redirect
 from queries import (
     get_calendar_reservations,
     get_reservation,
-    to_datetime_local,
+    normalize_reservation_date,
+    to_date_input,
 )
 
 
@@ -29,17 +30,17 @@ def register_booking_routes(app: Flask) -> None:
             return form_login_required_redirect()
         title = request.form.get("title", "").strip()
         description = request.form.get("description", "")
-        start_date = request.form.get("reservation_start", "")
-        end_date = request.form.get("reservation_end", "")
+        start_date = normalize_reservation_date(request.form.get("reservation_start", ""))
+        end_date = normalize_reservation_date(request.form.get("reservation_end", ""))
         category = parse_category(request.form.get("category"))
         rows = db.query("SELECT id FROM users WHERE username = ?", [session["username"]])
         if not rows:
             return form_error("Käyttäjää ei löydy", 400)
         user_id = rows[0]["id"]
         if not start_date or not end_date:
-            return form_error("Aloitus- ja lopetusajankohta ovat pakollisia", 400)
+            return form_error("Aloitus- ja lopetuspäivä ovat pakollisia", 400)
         if start_date > end_date:
-            return form_error("Aloitusajan täytyy olla ennen lopetusaikaa", 400)
+            return form_error("Aloituspäivän täytyy olla ennen tai sama kuin lopetuspäivä", 400)
         if not title:
             return form_error("Otsikko on pakollinen", 400)
 
@@ -62,8 +63,8 @@ def register_booking_routes(app: Flask) -> None:
             "reservation.html",
             reservation=row,
             is_owner=is_owner,
-            start_local=to_datetime_local(row["start_date"]),
-            end_local=to_datetime_local(row["end_date"]),
+            start_date_input=to_date_input(row["start_date"]),
+            end_date_input=to_date_input(row["end_date"]),
         )
 
     @app.route("/reservation/<int:reservation_id>/edit", methods=["POST"])
@@ -77,15 +78,15 @@ def register_booking_routes(app: Flask) -> None:
             return form_error("Voit muokata vain omia ilmoituksiasi", 403)
         title = request.form.get("title", "").strip()
         description = request.form.get("description", "")
-        start_date = request.form.get("reservation_start", "")
-        end_date = request.form.get("reservation_end", "")
+        start_date = normalize_reservation_date(request.form.get("reservation_start", ""))
+        end_date = normalize_reservation_date(request.form.get("reservation_end", ""))
         category = parse_category(request.form.get("category"))
         if not title:
             return form_error("Otsikko on pakollinen", 400)
         if not start_date or not end_date:
-            return form_error("Aloitus- ja lopetusajankohta ovat pakollisia", 400)
+            return form_error("Aloitus- ja lopetuspäivä ovat pakollisia", 400)
         if start_date > end_date:
-            return form_error("Aloitusajan täytyy olla ennen lopetusaikaa", 400)
+            return form_error("Aloituspäivän täytyy olla ennen tai sama kuin lopetuspäivä", 400)
         db.execute(
             """
             UPDATE reservations

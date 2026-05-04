@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+from datetime import datetime
+
+from flask import Flask
+
 import db
 from categories import category_label_fn, parse_category
 
@@ -30,11 +34,34 @@ def get_calendar_reservations():
     ]
 
 
-def to_datetime_local(value):
+def _parse_date_part(value):
     if not value:
-        return ""
+        return None
     s = str(value).strip().replace(" ", "T")
-    return s[:16] if len(s) >= 16 else s
+    part = s[:10]
+    try:
+        return datetime.strptime(part, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+
+def normalize_reservation_date(raw):
+    """Return YYYY-MM-DD for storing reservation bounds, or "" if invalid."""
+    d = _parse_date_part(raw)
+    return d.isoformat() if d else ""
+
+
+def to_date_input(value):
+    """Value for HTML date inputs (YYYY-MM-DD)."""
+    return normalize_reservation_date(value)
+
+
+def format_display_date(value):
+    """Format as DD.MM.YYYY for templates."""
+    d = _parse_date_part(value)
+    if d is None:
+        return (str(value).strip() if value else "") or ""
+    return f"{d.day:02d}.{d.month:02d}.{d.year}"
 
 
 def get_reservation(reservation_id):
@@ -104,3 +131,7 @@ def get_reservations_for_calendar_day(date_str):
         }
         for row in rows
     ]
+
+
+def register_query_jinja(app: Flask) -> None:
+    app.jinja_env.filters["display_date"] = format_display_date

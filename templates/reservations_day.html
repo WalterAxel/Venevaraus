@@ -3,7 +3,7 @@
 
 <head>
   {% include '_site_head.html' %}
-  <title>Varaukset — {{ date_label }}</title>
+  <title>Varaukset — {{ date_label|display_date }}</title>
 </head>
 
 <body class="site-body">
@@ -12,7 +12,7 @@
       <a class="site-back" href="/">← Etusivu</a>
 
       <header class="site-page-header site-page-header--tight">
-        <h1>Varaukset päivälle {{ date_label }}</h1>
+        <h1>Varaukset päivälle {{ date_label|display_date }}</h1>
       </header>
 
       {% if not reservations %}
@@ -24,7 +24,7 @@
           <a href="/reservation/{{ r.id }}">{{ r.title }}</a>
           — {{ category_label(r.category) }} — {{ r.username }}
           <br />
-          <span class="site-muted">{{ r.start }} … {{ r.end }}</span>
+          <span class="site-muted">{{ r.start|display_date }} … {{ r.end|display_date }}</span>
         </li>
         {% endfor %}
       </ul>
