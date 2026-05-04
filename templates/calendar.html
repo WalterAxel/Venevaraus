@@ -1,11 +1,11 @@
-<div class="calendar-widget" id="calendar-widget" aria-label="Kalenteri">
+<div class="calendar-widget" id="calendar-widget" aria-label="Calendar">
   <div class="calendar-widget__header">
-    <button type="button" class="calendar-widget__nav" id="cal-prev" aria-label="Edellinen kuukausi">‹</button>
-    <h2 class="calendar-widget__title" id="cal-title">Kalenteri</h2>
-    <button type="button" class="calendar-widget__nav" id="cal-next" aria-label="Seuraava kuukausi">›</button>
+    <button type="button" class="calendar-widget__nav" id="cal-prev" aria-label="Previous month">‹</button>
+    <h2 class="calendar-widget__title" id="cal-title">Calendar</h2>
+    <button type="button" class="calendar-widget__nav" id="cal-next" aria-label="Next month">›</button>
   </div>
   <div class="calendar-widget__weekdays" role="row">
-    <span>Ma</span><span>Ti</span><span>Ke</span><span>To</span><span>Pe</span><span>La</span><span>Su</span>
+    <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
   </div>
   <div class="calendar-widget__grid" id="cal-grid" role="grid"></div>
 </div>
@@ -95,11 +95,11 @@
     background: rgba(45, 122, 77, 0.1);
   }
 
-  .calendar-widget__cell--varaus {
+  .calendar-widget__cell--booking {
     background: rgba(45, 122, 77, 0.15);
   }
 
-  .calendar-widget__cell--vika {
+  .calendar-widget__cell--fault {
     background: rgba(184, 50, 50, 0.18);
   }
 
@@ -141,8 +141,8 @@
   }
 
   .calendar-widget__cell--booked .calendar-widget__day--today,
-  .calendar-widget__cell--varaus .calendar-widget__day--today,
-  .calendar-widget__cell--vika .calendar-widget__day--today,
+  .calendar-widget__cell--booking .calendar-widget__day--today,
+  .calendar-widget__cell--fault .calendar-widget__day--today,
   .calendar-widget__cell--mixed .calendar-widget__day--today {
     box-shadow: inset 0 0 0 2px var(--cal-today);
   }
@@ -152,12 +152,12 @@
     font-weight: 600;
   }
 
-  .calendar-widget__day--cat-varaus:not(.calendar-widget__day--today) {
+  .calendar-widget__day--cat-booking:not(.calendar-widget__day--today) {
     color: #2d7a4d;
     font-weight: 600;
   }
 
-  .calendar-widget__day--cat-vika:not(.calendar-widget__day--today) {
+  .calendar-widget__day--cat-fault:not(.calendar-widget__day--today) {
     color: #a02828;
     font-weight: 600;
   }
@@ -179,23 +179,23 @@
 <script>
   (function () {
     var monthNames = [
-      "Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
-      "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"
+      "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
     ];
 
     var reservations = {{ reservations | default([]) | tojson }};
     var pickDates = {{ calendar_pick_dates | default(false) | tojson }};
     var colorByCategory = {{ calendar_color_categories | default(false) | tojson }};
 
-    function dayHasVaraus(dayRes) {
+    function dayHasBooking(dayRes) {
       return dayRes.some(function (r) {
-        return (r.category || "varaus") === "varaus";
+        return (r.category || "booking") === "booking";
       });
     }
 
-    function dayHasVika(dayRes) {
+    function dayHasFault(dayRes) {
       return dayRes.some(function (r) {
-        return r.category === "vikailmoitus";
+        return r.category === "fault_report";
       });
     }
 
@@ -232,7 +232,7 @@
     }
 
     function bookingTitle(r) {
-      var kind = r.category_display || "Varaus";
+      var kind = r.category_display || "Booking";
       return r.title + " (" + kind + ", " + r.username + ")";
     }
 
@@ -268,17 +268,17 @@
 
         if (dayRes.length) {
           if (colorByCategory) {
-            var hv = dayHasVaraus(dayRes);
-            var hk = dayHasVika(dayRes);
+            var hv = dayHasBooking(dayRes);
+            var hk = dayHasFault(dayRes);
             if (hv && hk) {
               cell.classList.add("calendar-widget__cell--mixed");
               btn.classList.add("calendar-widget__day--cat-mixed");
             } else if (hk) {
-              cell.classList.add("calendar-widget__cell--vika");
-              btn.classList.add("calendar-widget__day--cat-vika");
+              cell.classList.add("calendar-widget__cell--fault");
+              btn.classList.add("calendar-widget__day--cat-fault");
             } else {
-              cell.classList.add("calendar-widget__cell--varaus");
-              btn.classList.add("calendar-widget__day--cat-varaus");
+              cell.classList.add("calendar-widget__cell--booking");
+              btn.classList.add("calendar-widget__day--cat-booking");
             }
           } else {
             cell.classList.add("calendar-widget__cell--booked");

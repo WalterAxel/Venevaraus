@@ -2,36 +2,36 @@
 <html>
 
 <head>
-  <title>Venevaraus</title>
+  <title>Boat reservations</title>
 </head>
 
 <body>
-  <h1>Venevaraus</h1>
+  <h1>Boat reservations</h1>
 
-  <p><a href="{{ url_for('ilmoitukset') }}">Kaikki ilmoitukset</a></p>
+  <p><a href="{{ url_for('announcements') }}">All announcements</a></p>
 
   {% include 'calendar.html' %}
 
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Signed in as {{ session.username }}
   </p>
     {% endif %}
 
   <p>
   {% if not session.username %}
-  <a href="/login">Kirjaudu sisään</a>
-  <a href="/register">Luo käyttäjätunnut</a>
+  <a href="/login">Log in</a>
+  <a href="/register">Create an account</a>
     {% endif %}
   {% if session.username %}
-  <a href="{{ url_for('profile') }}">Oma profiili</a>
-  <a href="/logout">Kirjaudu ulos</a>
+  <a href="{{ url_for('profile') }}">My profile</a>
+  <a href="/logout">Log out</a>
     {% endif %}
   </p>
 
   {% if session.username %}
   <p>
-    <a href="/new_reservation">Uusi ilmoitus</a>
+    <a href="/new_reservation">New entry</a>
   </p>
     {% endif %}
 </body>

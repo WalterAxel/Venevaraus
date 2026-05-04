@@ -2,33 +2,34 @@
 <html>
 
 <head>
-  <title>Kirjautuminen</title>
+  <title>Log in</title>
 </head>
 
 <body>
-  <p><a href="/">← Etusivu</a></p>
+  <p><a href="/">← Home</a></p>
 
   {% if session.username %}
   <p>
-    Olet kirjautunut nimellä {{ session.username }}
+    Signed in as {{ session.username }}
   </p>
   <p>
-    <a href="/logout">Kirjaudu ulos</a>
+    <a href="/logout">Log out</a>
   </p>
   {% else %}
-  <form action="/login" method="post">
+  <form class="ajax-form" action="/login" method="post">
     {% include '_csrf_field.html' %}
     <p>
-      Tunnus: <br />
+      Username: <br />
       <input type="text" name="username" />
     </p>
     <p>
-      Salasana: <br />
+      Password: <br />
       <input type="password" name="password" />
     </p>
-    <input type="submit" value="Kirjaudu" />
+    <input type="submit" value="Log in" />
   </form>
   {% endif %}
+  <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
 </body>
 
 </html>

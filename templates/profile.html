@@ -2,24 +2,24 @@
 <html>
 
 <head>
-  <title>Oma profiili — Venevaraus</title>
+  <title>My profile — Boat reservations</title>
 </head>
 
 <body>
-  <p><a href="/">← Etusivu</a></p>
+  <p><a href="/">← Home</a></p>
 
-  <h1>Oma profiili</h1>
+  <h1>My profile</h1>
 
   <section>
-    <h2>Tilin tiedot</h2>
-    <p><strong>Käyttäjätunnus:</strong> {{ user.username }}</p>
-    <p><strong>Käyttäjätunnuksen tunniste:</strong> {{ user.id }}</p>
+    <h2>Account details</h2>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>User ID:</strong> {{ user.id }}</p>
   </section>
 
   <section>
-    <h2>Omat ilmoitukset ({{ reservations|length }})</h2>
+    <h2>My entries ({{ reservations|length }})</h2>
     {% if not reservations %}
-    <p>Sinulla ei ole vielä ilmoituksia.</p>
+    <p>You have no entries yet.</p>
     {% else %}
     <ul>
       {% for r in reservations %}

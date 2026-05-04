@@ -6,56 +6,57 @@
 </head>
 
 <body>
-  <p><a href="/">← Etusivu</a></p>
+  <p><a href="/">← Home</a></p>
 
   <h1>{{ reservation.title }}</h1>
 
-  <p><strong>Tyyppi:</strong> {{ category_label(reservation.category) }}</p>
-  <p><strong>Varaaja:</strong> {{ reservation.username }}</p>
-  <p><strong>Aloitus:</strong> {{ reservation.start_date }}</p>
-  <p><strong>Lopetus:</strong> {{ reservation.end_date }}</p>
+  <p><strong>Type:</strong> {{ category_label(reservation.category) }}</p>
+  <p><strong>Booked by:</strong> {{ reservation.username }}</p>
+  <p><strong>Start:</strong> {{ reservation.start_date }}</p>
+  <p><strong>End:</strong> {{ reservation.end_date }}</p>
 
-  <p><strong>Kuvaus</strong></p>
+  <p><strong>Description</strong></p>
   <p style="white-space: pre-wrap;">{{ reservation.description }}</p>
 
   {% if is_owner %}
   <hr />
-  <h2>Muokkaa varausta</h2>
-  <form action="/reservation/{{ reservation.id }}/edit" method="post">
+  <h2>Edit reservation</h2>
+  <form class="ajax-form" action="/reservation/{{ reservation.id }}/edit" method="post">
     {% include '_csrf_field.html' %}
     <p>
-      Tyyppi: <br />
-      <label><input type="radio" name="category" value="varaus" {% if reservation.category == 'varaus' %}checked{% endif %} /> Varaus</label>
-      <label><input type="radio" name="category" value="vikailmoitus" {% if reservation.category == 'vikailmoitus' %}checked{% endif %} /> Vikailmoitus</label>
+      Type: <br />
+      <label><input type="radio" name="category" value="booking" {% if reservation.category == 'booking' %}checked{% endif %} /> Booking</label>
+      <label><input type="radio" name="category" value="fault_report" {% if reservation.category == 'fault_report' %}checked{% endif %} /> Fault report</label>
     </p>
     <p>
-      Otsikko: <br />
+      Title: <br />
       <input type="text" name="title" value="{{ reservation.title }}" required />
     </p>
     <p>
-      Kuvaus: <br />
+      Description: <br />
       <textarea name="description" rows="8" cols="60">{{ reservation.description }}</textarea>
     </p>
     <p>
-      Aloitus: <br />
+      Start: <br />
       <input type="datetime-local" name="reservation_start" value="{{ start_local }}" required />
     </p>
     <p>
-      Lopetus: <br />
+      End: <br />
       <input type="datetime-local" name="reservation_end" value="{{ end_local }}" required />
     </p>
     <p>
-      <input type="submit" value="Tallenna muutokset" />
+      <input type="submit" value="Save changes" />
     </p>
   </form>
 
-  <form action="/reservation/{{ reservation.id }}/delete" method="post" onsubmit="return confirm('Poistetaanko tämä varaus?');">
+  <form class="ajax-form" action="/reservation/{{ reservation.id }}/delete" method="post" data-confirm="Delete this reservation?">
     {% include '_csrf_field.html' %}
     <p>
-      <button type="submit">Poista varaus</button>
+      <button type="submit">Delete reservation</button>
     </p>
   </form>
   {% endif %}
+  <script src="{{ url_for('static', filename='ajax_forms.js') }}"></script>
 </body>
 
 </html>

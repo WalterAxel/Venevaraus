@@ -1,10 +1,11 @@
-# Venevaraus
-Yhteiskäytössä olevan veneen varausjärjestelmä.
+# Boat reservations (Venevaraus)
 
-- Sovelluksessa käyttäjät voi kirjautua omalla tunnuksella.
-- Veneen varaus visualisoidaan kalenterin avulla.
-- Käyttäjä voi varata aikavälin jolloin haluaa käyttää venettä.
-- Muut varaukset näkyy sovelluksen kalenterissa.
-- Käyttäjäsivulta näkee omien varausten lukumäärän, ja mahdolliset vikailmoitukset.
-- Käyttäjä pystyy valita ilmoitukselleen kaksi erilaista muotoa: varaus tai vikailmoitus.
-- Käyttäjä voi määrittää jos haluaa tehdä varauksesta julkisen, jotta muutkin jäsenet voivat tulla mukaan purjehtimaan.
+Shared boat booking and announcements app.
+
+- Users sign in with their own credentials.
+- Bookings are shown on a calendar.
+- Users reserve a time range for using the boat.
+- Other bookings appear on the shared calendar.
+- The profile page lists the user’s entries, including bookings and fault reports.
+- Each entry has one of two types: booking or fault report.
+- Users can optionally make a booking public so other members can join for sailing.

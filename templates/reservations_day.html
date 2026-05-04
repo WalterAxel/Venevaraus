@@ -2,16 +2,16 @@
 <html>
 
 <head>
-  <title>Varaukset — {{ date_label }}</title>
+  <title>Reservations — {{ date_label }}</title>
 </head>
 
 <body>
-  <p><a href="/">← Etusivu</a></p>
+  <p><a href="/">← Home</a></p>
 
-  <h1>Varaukset päivälle {{ date_label }}</h1>
+  <h1>Reservations for {{ date_label }}</h1>
 
   {% if not reservations %}
-  <p>Ei varauksia tälle päivälle.</p>
+  <p>No reservations for this day.</p>
   {% else %}
   <ul>
     {% for r in reservations %}
